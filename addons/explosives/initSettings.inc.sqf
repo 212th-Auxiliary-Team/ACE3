@@ -53,3 +53,12 @@ private _categoryStr = format ["ACE %1", LLSTRING(Menu)];
     [_categoryStr, LLSTRING(ExplosiveTimer)],
     [0, 5999, TIMER_VALUE_DEFAULT]
 ] call CBA_fnc_addSetting;
+
+[
+    "Aux212_DemoCharges",
+    "EDITBOX",
+    ["Explosive Whitelist", "This is an array of array's to the system , to insert new explosive follow the pattern \n [['EXPLOSIVE_AMMO_CLASS', 'NAME', 'SAFE_DISTANCE']] \n don't forget that it's a group of array's inside an array"],
+    ["Aux212", "Demo SOP Automation"],
+    "[ ['Aux212_X3_Thermal_Disruptor_Ammo', 'X3' , '10m'],['Aux212_X10_Thermal_Disruptor_Ammo','X10' , '30m'],['Aux212_7PrG_Proton_Charge_Ammo','Proton Charge', '10m'], ['JLTS_explosive_emp_10_Ammo', 'EMP MK2', '10m'],['JLTS_explosive_emp_50_ammo', 'EMP MK5', '50m'] ]",
+    1
+] call CBA_fnc_addSetting;

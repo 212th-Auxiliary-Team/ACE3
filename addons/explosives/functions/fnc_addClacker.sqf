@@ -45,13 +45,7 @@ _clacker pushBack [_explosive, getNumber(_config >> "FuseTime"), format [localiz
 _unit setVariable [QGVAR(Clackers), _clacker, true];
 
 //White-listed explosives
-Aux212_DemoCharges = [
-    ["Aux212_X3_Thermal_Disruptor_Ammo", "X3" , "10m"],
-    ["Aux212_X10_Thermal_Disruptor_Ammo","X10" , "30m"],
-    ["Aux212_7PrG_Proton_Charge_Ammo","Proton Charge", "10m"], 
-    ["JLTS_explosive_emp_10_Ammo", "EMP MK2", "10m"],
-    ["JLTS_explosive_emp_50_ammo", "EMP MK5", "50m"]
-    ];
+ _parseArray = parseSimpleArray Aux212_DemoCharges;
 
 {
     _ExType = Typeof _explosive;
@@ -89,7 +83,7 @@ Aux212_DemoCharges = [
         _marker setMarkerColor "ColorCIS";
         _marker setMarkerText format["%1 %2 %3", _x select 1, _x select 2, format [localize LSTRING(DetonateCode), GVAR(PlacedCount)]];
     };
-}forEach Aux212_DemoCharges;
+}forEach _parseArray;
 //display clacker code message:
 [format [localize LSTRING(DetonateCode), GVAR(PlacedCount)]] call EFUNC(common,displayTextStructured);
 
