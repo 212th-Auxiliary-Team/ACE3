@@ -6,7 +6,7 @@ class CfgPatches
 		version = "1.0";
 		units[] = {};
 		weapons[] = {};
-		requiredVersion = "0.1";
+		requiredVersion = "0.5";
 		requiredAddons[] = {};
 	};
 };
