@@ -12,6 +12,7 @@ if (!(hasInterface) or (isDedicated)) exitWith {};
 displayAddEventHandler ["MouseButtonDown", {
 	_unit = missionNamespace getVariable["bis_fnc_moduleRemoteControl_unit", player];
 	_weap = currentWeapon _unit;
+	if !(getText (configFile >> "CfgWeapons" >> _weap >> "WBK_BurnEm_IsFlamethrower") != "") exitwith {};
 	if !(isNil {_unit getVariable "WBK_FlameInUse"}) exitWith {};
 	#define FLMDBG format ["_this:%1 \n isFlamer?:%2 \n dialog:%3 \n map:%4 \n inVehicle:%5 \n ace_trench_place:%6 \n grad_trench_dig:%7 \n ace_throw:%8", (_this select 1 == 0),(getText (configFile >> "CfgWeapons" >> _weap >> "WBK_BurnEm_IsFlamethrower") != ""),(!dialog), (!visibleMap),!(vehicle _unit != _unit),!(_unit getvariable "ace_trenches_isplacing"),!(_unit getvariable "grad_trenches_functions_diggingtrench"),!(_unit getvariable "ace_advanced_throwing_inhand")];
 	if(Aux212_BurnEm_Debug)then {diag_log FLMDBG};
@@ -38,13 +39,23 @@ displayAddEventHandler ["MouseButtonDown", {
 		_snd_Loop = _arr1 select 1;
 		_snd_Loop_Sec = _arr1 select 2;
 		_snd_End = _arr1 select 3;
-
-		_smlfirelight = "#lightpoint" createVehicleLocal (getpos _object);
+		
+		_smlfirelight = "";
+		if (Aux212_BurnEm_Local_var) then {
+			_smlfirelight = "#lightpoint" createVehicleLocal (getpos _object);
+		}else {
+			_smlfirelight = "#lightpoint" createVehicle (getpos _object);
+		};
 		_smlfirelight attachTo [_object, [0,3,0], "leftHand"];
 		_smlfirelight setLightAmbient [1, 0.3, 0.1];
 		_smlfirelight setLightColor [1, 0.3, 0.1];
 		_smlfirelight setLightBrightness 0.51;
-		_blow_obj = "#particlesource" createVehicleLocal [0,0,0];
+		_blow_obj = "";
+		if (Aux212_BurnEm_Local_var) then {
+			_blow_obj = "#particlesource" createVehicleLocal [0,0,0];
+		}else {
+			_blow_obj = "#particlesource" createVehicle [0,0,0];
+		};
 		_arr2 = parseSimpleArray getText (configFile >> "CfgWeapons" >> currentWeapon _object >> "WBK_BurnEm_FlamethrowerParticlePos");  
 		_pos = _arr2 select 0;
 		_bone = _arr2 select 1;
@@ -58,7 +69,12 @@ displayAddEventHandler ["MouseButtonDown", {
 				sleep (_this select 2);
 			};
 		};
-		_1_fum = "#particlesource" createVehicleLocal (getPosATL _blow_obj);
+		_1_fum = "";
+		if (Aux212_BurnEm_Local_var) then {
+			_1_fum = "#particlesource" createVehicleLocal (getPosATL _blow_obj);
+		}else {
+			_1_fum = "#particlesource" createVehicle (getPosATL _blow_obj);
+		};
 		_1_fum setDropInterval 0.007;
 		_1_fum setParticleCircle [0, [0, 0, 0]];
 		_1_fum setParticleRandom [0.5,[0.1,0.1,0.1],[0,0,0],1,0.01,[0,0,0,0.1],0.01,0,10];
@@ -125,7 +141,12 @@ displayAddEventHandler ["MouseButtonDown", {
 		_object setVariable ["WBK_FlameInUse",nil];
 		deleteVehicle _1_fum;
 		deleteVehicle _smlfirelight;
-		_end = "#particlesource" createVehicleLocal [0,0,0];
+		_end = "";
+		if (Aux212_BurnEm_Local_var) then {
+			_end = "#particlesource" createVehicleLocal [0,0,0];
+		}else {
+			_end = "#particlesource" createVehicle [0,0,0];
+		};	
 		_end attachTo [_object, [-0.32,0.3,-0.3], "leftHand",true];
 		_end say3D [_snd_End,130];
 		sleep 0.4;
